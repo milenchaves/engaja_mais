@@ -82,12 +82,16 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "fastapi", extra = ["standard"] },
+    { name = "python-dotenv" },
+    { name = "sqlalchemy" },
     { name = "sqlmodel" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "fastapi", extras = ["standard"], specifier = ">=0.115.6" },
+    { name = "python-dotenv", specifier = ">=1.0.1" },
+    { name = "sqlalchemy", specifier = ">=2.0.37" },
     { name = "sqlmodel", specifier = ">=0.0.22" },
 ]
 
