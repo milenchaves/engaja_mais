@@ -8,7 +8,7 @@ class InscricaoBase(SQLModel):
     id: int | None = Field(default=None, primary_key=True)
     status: str
     
-class Inscricao(InscricaoBase, True):
+class Inscricao(InscricaoBase, table=True):
     id_vaga: int = Field(default=None, foreign_key=True)
     id_voluntario: int = Field(default=None, foreign_key=True)
     vaga: 'Vaga' = Relationship(back_populates="inscricao")

@@ -1,14 +1,12 @@
 from sqlmodel import SQLModel, Field, Relationship
-from typing import Optional, List, TYPE_CHECKING
+from typing import List, TYPE_CHECKING
 from datetime import date
-
 if TYPE_CHECKING:
     from .inscricao import Inscricao
-    from .voluntario_organizacao import VoluntarioOrganizacao
-    from .organizacao import Organizacao
+    from .organizacao import Organizacao, OrganizacaoVoluntario
 
 class VoluntarioBase(SQLModel):
-    id_voluntario: Optional[int] = Field(default=None, primary_key=True)
+    id: int | None = Field(default=None, primary_key=True)
     nome_voluntario: str
     email: str
     data_nascimento: date
@@ -16,4 +14,8 @@ class VoluntarioBase(SQLModel):
 
 class Voluntario(VoluntarioBase, table=True):
     inscricoes: List["Inscricao"] = Relationship(back_populates="voluntario")
-    organizacoes: List["VoluntarioOrganizacao"] = Relationship(back_populates="voluntario")
+    organizacoes: List["Organizacao"] = Relationship(link_model=OrganizacaoVoluntario)
+    
+class VoluntarioComInscricaoOrganizacao(VoluntarioBase):
+    inscricoes: list[Inscricao] = None
+    organizacoes: list[Organizacao] = None
