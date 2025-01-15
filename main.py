@@ -1,6 +1,12 @@
-def main():
-    print("Hello from engaja-mais!")
+from fastapi import FastAPI
+from contextlib import asynccontextmanager
+from database import create_db_and_tables
 
+# Configurações de inicialização
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    create_db_and_tables()
+    yield
 
-if __name__ == "__main__":
-    main()
+# Inicializa o aplicativo FastAPI
+app = FastAPI(lifespan=lifespan)
