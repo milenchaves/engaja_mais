@@ -1,10 +1,9 @@
 from sqlmodel import SQLModel, Field, Relationship
 from typing import List, TYPE_CHECKING
 from datetime import datetime, timezone
-from .inscricao import Inscricao
-
 if TYPE_CHECKING:
-    from .organizacao import  Organizacao
+    from .organizacao import Organizacao
+    from .inscricao import Inscricao
 
 class VagaBase(SQLModel):
     id: int | None = Field(default=None, primary_key=True)
@@ -16,5 +15,4 @@ class VagaBase(SQLModel):
 class Vaga(VagaBase, table=True):
     id_organizacao: int = Field(foreign_key="organizacao.id")
     organizacao: List['Organizacao'] = Relationship(back_populates="vaga")
-    inscricao: List['Inscricao'] = Relationship(back_populates="vaga")
-
+    inscricao: 'Inscricao' = Relationship(back_populates="vaga")

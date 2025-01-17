@@ -17,6 +17,6 @@ class VoluntarioBase(SQLModel):
     area_interesse: str
 
 class Voluntario(VoluntarioBase, table=True):
-    inscricoes: List['Inscricao'] = Relationship(back_populates="voluntario")
+    inscricao: List['Inscricao'] = Relationship(back_populates="voluntario")
     organizacoes: List['Organizacao'] = Relationship(link_model=OrganizacaoVoluntario)
     

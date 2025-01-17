@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends, Query
 from sqlmodel import Session, select
+from datetime import datetime
 from models.voluntario import Voluntario, VoluntarioBase
 from database import get_session
 
@@ -13,10 +14,18 @@ router = APIRouter(
 def create_voluntario(
     voluntario: Voluntario, session: Session = Depends(get_session)
 ):
-    session.add(voluntario)
-    session.commit()
-    session.refresh(voluntario)
-    return voluntario
+    try:
+        # Certifique-se de que o campo 'data_nascimento' é um objeto date
+        if isinstance(voluntario.data_nascimento, str):
+            voluntario.data_nascimento = datetime.strptime(voluntario.data_nascimento, "%Y-%m-%d").date()
+            
+        session.add(voluntario)
+        session.commit()
+        session.refresh(voluntario)
+        return voluntario
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=f"Formato de data inválido: {e}")
+
 
 # Ler todos os voluntários (com paginação)
 @router.get("/", response_model=list[Voluntario])

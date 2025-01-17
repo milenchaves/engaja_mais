@@ -1,13 +1,13 @@
 from sqlmodel import SQLModel, Field, Relationship
 from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from .vaga import Vaga
-    from .voluntario import Voluntario
 
+if TYPE_CHECKING:
+    from .voluntario import Voluntario
+    from .vaga import Vaga
+    
 class InscricaoBase(SQLModel):
     id: int | None = Field(default=None, primary_key=True)
-    status: str
-    
+    status: str  
 class Inscricao(InscricaoBase, table=True):
     id_vaga: int = Field(foreign_key="vaga.id")
     id_voluntario: int = Field(foreign_key="voluntario.id")
