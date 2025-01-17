@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends, Query
 from sqlmodel import Session, select
-from models.inscricao import Inscricao, InscricaoBase, InscricaoComVoluntario
+from models.inscricao import Inscricao, InscricaoBase
 from database import get_session
 
 router = APIRouter(
@@ -28,7 +28,7 @@ def read_inscricoes(
     return session.exec(select(Inscricao).offset(offset).limit(limit)).all()
 
 # Ler uma única inscrição pelo ID
-@router.get("/{inscricao_id}", response_model=InscricaoComVoluntario)
+@router.get("/{inscricao_id}", response_model=Inscricao)
 def read_inscricao(
     inscricao_id: int, session: Session = Depends(get_session)
 ):

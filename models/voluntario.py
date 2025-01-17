@@ -1,6 +1,7 @@
 from sqlmodel import SQLModel, Field, Relationship
 from typing import List, TYPE_CHECKING
 from datetime import date
+
 if TYPE_CHECKING:
     from .inscricao import Inscricao
     from .organizacao import Organizacao
@@ -16,6 +17,6 @@ class VoluntarioBase(SQLModel):
     area_interesse: str
 
 class Voluntario(VoluntarioBase, table=True):
-    inscricoes: list['Inscricao'] = Relationship(back_populates="voluntario")
-    organizacoes: list['Organizacao'] = Relationship(link_model=OrganizacaoVoluntario)
+    inscricoes: List['Inscricao'] = Relationship(back_populates="voluntario")
+    organizacoes: List['Organizacao'] = Relationship(link_model=OrganizacaoVoluntario)
     

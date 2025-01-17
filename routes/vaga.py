@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends, Query
 from sqlmodel import Session, select
-from models.vaga import Vaga, VagaBase, VagaComOrganizacao
+from models.vaga import Vaga, VagaBase
 from database import get_session
 
 router = APIRouter(
@@ -28,7 +28,7 @@ def read_vagas(
     return session.exec(select(Vaga).offset(offset).limit(limit)).all()
 
 # Ler uma única vaga pelo ID
-@router.get("/{vaga_id}", response_model=VagaComOrganizacao)
+@router.get("/{vaga_id}", response_model=Vaga)
 def read_vaga(
     vaga_id: int, session: Session = Depends(get_session)
 ):
