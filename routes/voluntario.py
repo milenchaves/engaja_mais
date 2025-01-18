@@ -3,6 +3,7 @@ from sqlmodel import Session, select
 from datetime import datetime
 from models.voluntario import Voluntario, VoluntarioBase
 from database import get_session
+from models.organizacao import Organizacao, OrganizacaoVoluntario
 
 router = APIRouter(
     prefix="/voluntarios",  # Prefixo para todas as rotas
@@ -12,15 +13,28 @@ router = APIRouter(
 # Criar um novo voluntário
 @router.post("/", response_model=Voluntario)
 def criar_voluntario(
-    voluntario: Voluntario, session: Session = Depends(get_session)
+    voluntario: Voluntario, organizacao_ids: list[int], session: Session = Depends(get_session)
 ):
     try:
         if isinstance(voluntario.data_nascimento, str):
             voluntario.data_nascimento = datetime.strptime(voluntario.data_nascimento, "%Y-%m-%d").date()
-            
+
         session.add(voluntario)
         session.commit()
         session.refresh(voluntario)
+
+        for organizacao_id in organizacao_ids:
+            organizacao = session.get(Organizacao, organizacao_id)
+            if not organizacao:
+                raise HTTPException(status_code=404, detail=f"Organização com ID {organizacao_id} não encontrada")
+            
+            associacao = OrganizacaoVoluntario(id_voluntario=voluntario.id, id_organizacao=organizacao_id)
+            session.add(associacao)
+
+        session.commit()
+
+        voluntario = session.query(Voluntario).filter(Voluntario.id == voluntario.id).first()
+
         return voluntario
     except ValueError as e:
         raise HTTPException(status_code=400, detail=f"Formato de data inválido: {e}")
