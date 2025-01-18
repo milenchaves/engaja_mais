@@ -5,12 +5,12 @@ from database import get_session
 
 router = APIRouter(
     prefix="/organizacoes",  # Prefixo para todas as rotas
-    tags=["Organizacoes"],   # Tag para documentação automática
+    tags=["Organizações"],   # Tag para documentação automática
 )
 
 # Criar uma nova organização
 @router.post("/", response_model=Organizacao)
-def create_organizacao(
+def criar_organizacao(
     organizacao: Organizacao, session: Session = Depends(get_session)
 ):
     session.add(organizacao)
@@ -20,7 +20,7 @@ def create_organizacao(
 
 # Ler todas as organizações (com paginação)
 @router.get("/", response_model=list[Organizacao])
-def read_organizacoes(
+def listar_organizacoes(
     offset: int = 0,
     limit: int = Query(default=10, le=100),
     session: Session = Depends(get_session),
@@ -29,7 +29,7 @@ def read_organizacoes(
 
 # Ler uma única organização pelo ID
 @router.get("/{organizacao_id}", response_model=Organizacao)
-def read_organizacao(
+def listar_organizacao_por_id(
     organizacao_id: int, session: Session = Depends(get_session)
 ):
     organizacao = session.get(Organizacao, organizacao_id)
@@ -39,7 +39,7 @@ def read_organizacao(
 
 # Atualizar uma organização existente
 @router.put("/{organizacao_id}", response_model=Organizacao)
-def update_organizacao(
+def atualizar_organizacao(
     organizacao_id: int,
     organizacao: OrganizacaoBase,
     session: Session = Depends(get_session),
@@ -56,7 +56,7 @@ def update_organizacao(
 
 # Deletar uma organização
 @router.delete("/{organizacao_id}")
-def delete_organizacao(
+def deletar_organizacao(
     organizacao_id: int, session: Session = Depends(get_session)
 ):
     organizacao = session.get(Organizacao, organizacao_id)

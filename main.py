@@ -12,7 +12,7 @@ async def lifespan(app: FastAPI):
 # Inicializa o aplicativo FastAPI
 app = FastAPI(lifespan=lifespan)
 
-app.include_router(organizacao.router)
-app.include_router(inscricao.router)
-app.include_router(vaga.router)
 app.include_router(voluntario.router)
+app.include_router(organizacao.router)
+app.include_router(vaga.router)
+app.include_router(inscricao.router)

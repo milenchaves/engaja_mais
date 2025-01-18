@@ -5,12 +5,12 @@ from database import get_session
 
 router = APIRouter(
     prefix="/inscricoes",  # Prefixo para todas as rotas
-    tags=["Inscricoes"],   # Tag para documentação automática
+    tags=["Inscrições"],   # Tag para documentação automática
 )
 
 # Criar uma nova inscrição
 @router.post("/", response_model=Inscricao)
-def create_inscricao(
+def criar_inscricao(
     inscricao: Inscricao, session: Session = Depends(get_session)
 ):
     session.add(inscricao)
@@ -20,7 +20,7 @@ def create_inscricao(
 
 # Ler todas as inscrições (com paginação)
 @router.get("/", response_model=list[Inscricao])
-def read_inscricoes(
+def listar_inscricoes(
     offset: int = 0,
     limit: int = Query(default=10, le=100),
     session: Session = Depends(get_session),
@@ -29,7 +29,7 @@ def read_inscricoes(
 
 # Ler uma única inscrição pelo ID
 @router.get("/{inscricao_id}", response_model=Inscricao)
-def read_inscricao(
+def listar_inscricao_por_id(
     inscricao_id: int, session: Session = Depends(get_session)
 ):
     inscricao = session.get(Inscricao, inscricao_id)
@@ -39,7 +39,7 @@ def read_inscricao(
 
 # Atualizar uma inscrição existente
 @router.put("/{inscricao_id}", response_model=Inscricao)
-def update_inscricao(
+def atualizar_inscricao(
     inscricao_id: int,
     inscricao: InscricaoBase,
     session: Session = Depends(get_session),
@@ -56,7 +56,7 @@ def update_inscricao(
 
 # Deletar uma inscrição
 @router.delete("/{inscricao_id}")
-def delete_inscricao(
+def deletar_inscricao(
     inscricao_id: int, session: Session = Depends(get_session)
 ):
     inscricao = session.get(Inscricao, inscricao_id)

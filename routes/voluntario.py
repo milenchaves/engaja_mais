@@ -6,16 +6,15 @@ from database import get_session
 
 router = APIRouter(
     prefix="/voluntarios",  # Prefixo para todas as rotas
-    tags=["Voluntarios"],   # Tag para documentação automática
+    tags=["Voluntários"],   # Tag para documentação automática
 )
 
 # Criar um novo voluntário
 @router.post("/", response_model=Voluntario)
-def create_voluntario(
+def criar_voluntario(
     voluntario: Voluntario, session: Session = Depends(get_session)
 ):
     try:
-        # Certifique-se de que o campo 'data_nascimento' é um objeto date
         if isinstance(voluntario.data_nascimento, str):
             voluntario.data_nascimento = datetime.strptime(voluntario.data_nascimento, "%Y-%m-%d").date()
             
@@ -29,7 +28,7 @@ def create_voluntario(
 
 # Ler todos os voluntários (com paginação)
 @router.get("/", response_model=list[Voluntario])
-def read_voluntarios(
+def listar_voluntarios(
     offset: int = 0,
     limit: int = Query(default=10, le=100),
     session: Session = Depends(get_session),
@@ -38,7 +37,7 @@ def read_voluntarios(
 
 # Ler um único voluntário pelo ID
 @router.get("/{voluntario_id}", response_model=Voluntario)
-def read_voluntario(
+def listar_voluntario_por_id(
     voluntario_id: int, session: Session = Depends(get_session)
 ):
     voluntario = session.get(Voluntario, voluntario_id)
@@ -48,7 +47,7 @@ def read_voluntario(
 
 # Atualizar um voluntário existente
 @router.put("/{voluntario_id}", response_model=Voluntario)
-def update_voluntario(
+def atualizar_voluntario(
     voluntario_id: int,
     voluntario: VoluntarioBase,
     session: Session = Depends(get_session),
@@ -65,7 +64,7 @@ def update_voluntario(
 
 # Deletar um voluntário
 @router.delete("/{voluntario_id}")
-def delete_voluntario(
+def deletar_voluntario(
     voluntario_id: int, session: Session = Depends(get_session)
 ):
     voluntario = session.get(Voluntario, voluntario_id)

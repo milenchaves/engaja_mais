@@ -20,11 +20,6 @@
         causa_apoiada: str
     }
 
-    class VoluntarioOrganizacao {
-    id_voluntario: int
-    id_organizacao: int
-}
-
     class Vaga {
         id_vaga: int
         id_organizacao: int
@@ -41,8 +36,8 @@
         status_inscricao: str
     }
 
-Voluntario "1" -- "*" VoluntarioOrganizacao 
-Organizacao "1" -- "*" VoluntarioOrganizacao 
+Voluntario "*" -- "*" Organizacao
+Organizacao "*" -- "*" Voluntario 
 Organizacao "1" -- "*" Vaga 
 Vaga "1" -- "*" Inscricao 
 Voluntario "1" -- "*" Inscricao  

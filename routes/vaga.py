@@ -10,7 +10,7 @@ router = APIRouter(
 
 # Criar uma nova vaga
 @router.post("/", response_model=Vaga)
-def create_vaga(
+def criar_vaga(
     vaga: Vaga, session: Session = Depends(get_session)
 ):
     session.add(vaga)
@@ -20,7 +20,7 @@ def create_vaga(
 
 # Ler todas as vagas (com paginação)
 @router.get("/", response_model=list[Vaga])
-def read_vagas(
+def listar_vagas(
     offset: int = 0,
     limit: int = Query(default=10, le=100),
     session: Session = Depends(get_session),
@@ -29,7 +29,7 @@ def read_vagas(
 
 # Ler uma única vaga pelo ID
 @router.get("/{vaga_id}", response_model=Vaga)
-def read_vaga(
+def listar_vaga_por_id(
     vaga_id: int, session: Session = Depends(get_session)
 ):
     vaga = session.get(Vaga, vaga_id)
@@ -39,7 +39,7 @@ def read_vaga(
 
 # Atualizar uma vaga existente
 @router.put("/{vaga_id}", response_model=Vaga)
-def update_vaga(
+def atualizar_vaga(
     vaga_id: int,
     vaga: VagaBase,
     session: Session = Depends(get_session),
@@ -56,7 +56,7 @@ def update_vaga(
 
 # Deletar uma vaga
 @router.delete("/{vaga_id}")
-def delete_vaga(
+def deletar_vaga(
     vaga_id: int, session: Session = Depends(get_session)
 ):
     vaga = session.get(Vaga, vaga_id)
