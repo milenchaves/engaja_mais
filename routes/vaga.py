@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends, Query
 from sqlmodel import Session, select
+from datetime import datetime
 from models.vaga import Vaga, VagaBase
 from database import get_session
 
@@ -13,10 +14,17 @@ router = APIRouter(
 def criar_vaga(
     vaga: Vaga, session: Session = Depends(get_session)
 ):
-    session.add(vaga)
-    session.commit()
-    session.refresh(vaga)
-    return vaga
+    try:
+        if isinstance(vaga.data_publicacao, str):
+            vaga.data_publicacao = datetime.strptime(vaga.data_publicacao, "%Y-%m-%d").date()
+
+        session.add(vaga)
+        session.commit()
+        session.refresh(vaga)
+        return vaga
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=f"Formato de data inválido: {e}")
+
 
 # Ler todas as vagas (com paginação)
 @router.get("/", response_model=list[Vaga])
