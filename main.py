@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from database import create_db_and_tables
 from routes import organizacao, inscricao, vaga, voluntario
+from schemas import consulta
 
 # Configurações de inicialização
 @asynccontextmanager
@@ -16,3 +17,4 @@ app.include_router(voluntario.router)
 app.include_router(organizacao.router)
 app.include_router(vaga.router)
 app.include_router(inscricao.router)
+app.include_router(consulta.router)

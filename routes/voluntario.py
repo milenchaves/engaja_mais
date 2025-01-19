@@ -18,24 +18,20 @@ def criar_voluntario(
     try:
         if isinstance(voluntario.data_nascimento, str):
             voluntario.data_nascimento = datetime.strptime(voluntario.data_nascimento, "%Y-%m-%d").date()
-
         session.add(voluntario)
         session.commit()
         session.refresh(voluntario)
-
+        
         for organizacao_id in organizacao_ids:
             organizacao = session.get(Organizacao, organizacao_id)
             if not organizacao:
                 raise HTTPException(status_code=404, detail=f"Organização com ID {organizacao_id} não encontrada")
-            
             associacao = OrganizacaoVoluntario(id_voluntario=voluntario.id, id_organizacao=organizacao_id)
             session.add(associacao)
-
         session.commit()
-
         voluntario = session.query(Voluntario).filter(Voluntario.id == voluntario.id).first()
-
         return voluntario
+    
     except ValueError as e:
         raise HTTPException(status_code=400, detail=f"Formato de data inválido: {e}")
 
