@@ -60,14 +60,23 @@ def listar_voluntario_por_id(
 def atualizar_voluntario(
     voluntario_id: int,
     voluntario: VoluntarioBase,
+    organizacao_ids: list[int],  # Recebe os novos IDs de organizações
     session: Session = Depends(get_session),
 ):
     db_voluntario = session.get(Voluntario, voluntario_id)
     if not db_voluntario:
-        raise HTTPException(status_code=404, detail="Voluntario not found")
+        raise HTTPException(status_code=404, detail="Voluntário não encontrado")
     for key, value in voluntario.dict(exclude_unset=True).items():
         setattr(db_voluntario, key, value)
-    session.add(db_voluntario)
+
+    session.query(OrganizacaoVoluntario).filter(OrganizacaoVoluntario.id_voluntario == voluntario_id).delete()
+    
+    for organizacao_id in organizacao_ids:
+        organizacao = session.get(Organizacao, organizacao_id)
+        if not organizacao:
+            raise HTTPException(status_code=404, detail=f"Organização com ID {organizacao_id} não encontrada")
+        associacao = OrganizacaoVoluntario(id_voluntario=voluntario_id, id_organizacao=organizacao_id)
+        session.add(associacao)
     session.commit()
     session.refresh(db_voluntario)
     return db_voluntario
