@@ -5,11 +5,11 @@ from models.vaga import Vaga, VagaBase
 from database import get_session
 
 router = APIRouter(
-    prefix="/vagas",  # Prefixo para todas as rotas
-    tags=["Vagas"],   # Tag para documentação automática
+    prefix="/vagas",  
+    tags=["Vagas"],   
 )
 
-# Criar uma nova vaga
+
 @router.post("/", response_model=Vaga)
 def criar_vaga(
     vaga: Vaga, session: Session = Depends(get_session)
@@ -26,7 +26,7 @@ def criar_vaga(
         raise HTTPException(status_code=400, detail=f"Formato de data inválido: {e}")
 
 
-# Ler todas as vagas (com paginação)
+
 @router.get("/", response_model=list[Vaga])
 def listar_vagas(
     offset: int = 0,
@@ -35,7 +35,7 @@ def listar_vagas(
 ):
     return session.exec(select(Vaga).offset(offset).limit(limit)).all()
 
-# Ler uma única vaga pelo ID
+
 @router.get("/{vaga_id}", response_model=Vaga)
 def listar_vaga_por_id(
     vaga_id: int, session: Session = Depends(get_session)
@@ -45,7 +45,6 @@ def listar_vaga_por_id(
         raise HTTPException(status_code=404, detail="Vaga not found")
     return vaga
 
-# Atualizar uma vaga existente
 @router.put("/{vaga_id}", response_model=Vaga)
 def atualizar_vaga(
     vaga_id: int,
@@ -62,7 +61,7 @@ def atualizar_vaga(
     session.refresh(db_vaga)
     return db_vaga
 
-# Deletar uma vaga
+
 @router.delete("/{vaga_id}")
 def deletar_vaga(
     vaga_id: int, session: Session = Depends(get_session)

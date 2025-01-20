@@ -1,6 +1,6 @@
 from sqlmodel import SQLModel, Field, Relationship
 from typing import List, TYPE_CHECKING
-from datetime import date, datetime, timezone
+from datetime import date
 if TYPE_CHECKING:
     from .organizacao import Organizacao
     from .inscricao import Inscricao

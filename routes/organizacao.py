@@ -4,11 +4,11 @@ from models.organizacao import Organizacao, OrganizacaoBase
 from database import get_session
 
 router = APIRouter(
-    prefix="/organizacoes",  # Prefixo para todas as rotas
-    tags=["Organizações"],   # Tag para documentação automática
+    prefix="/organizacoes",  
+    tags=["Organizações"],   
 )
 
-# Criar uma nova organização
+
 @router.post("/", response_model=Organizacao)
 def criar_organizacao(
     organizacao: Organizacao, session: Session = Depends(get_session)
@@ -18,7 +18,7 @@ def criar_organizacao(
     session.refresh(organizacao)
     return organizacao
 
-# Ler todas as organizações (com paginação)
+
 @router.get("/", response_model=list[Organizacao])
 def listar_organizacoes(
     offset: int = 0,
@@ -27,7 +27,7 @@ def listar_organizacoes(
 ):
     return session.exec(select(Organizacao).offset(offset).limit(limit)).all()
 
-# Ler uma única organização pelo ID
+
 @router.get("/{organizacao_id}", response_model=Organizacao)
 def listar_organizacao_por_id(
     organizacao_id: int, session: Session = Depends(get_session)
@@ -37,7 +37,7 @@ def listar_organizacao_por_id(
         raise HTTPException(status_code=404, detail="Organizacao not found")
     return organizacao
 
-# Atualizar uma organização existente
+
 @router.put("/{organizacao_id}", response_model=Organizacao)
 def atualizar_organizacao(
     organizacao_id: int,
@@ -54,7 +54,7 @@ def atualizar_organizacao(
     session.refresh(db_organizacao)
     return db_organizacao
 
-# Deletar uma organização
+
 @router.delete("/{organizacao_id}")
 def deletar_organizacao(
     organizacao_id: int, session: Session = Depends(get_session)

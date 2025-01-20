@@ -4,11 +4,11 @@ from models.inscricao import Inscricao, InscricaoBase
 from database import get_session
 
 router = APIRouter(
-    prefix="/inscricoes",  # Prefixo para todas as rotas
-    tags=["Inscrições"],   # Tag para documentação automática
+    prefix="/inscricoes",  
+    tags=["Inscrições"],   
 )
 
-# Criar uma nova inscrição
+
 @router.post("/", response_model=Inscricao)
 def criar_inscricao(
     inscricao: Inscricao, session: Session = Depends(get_session)
@@ -18,7 +18,7 @@ def criar_inscricao(
     session.refresh(inscricao)
     return inscricao
 
-# Ler todas as inscrições (com paginação)
+
 @router.get("/", response_model=list[Inscricao])
 def listar_inscricoes(
     offset: int = 0,
@@ -37,7 +37,7 @@ def listar_inscricao_por_id(
         raise HTTPException(status_code=404, detail="Inscricao not found")
     return inscricao
 
-# Atualizar uma inscrição existente
+
 @router.put("/{inscricao_id}", response_model=Inscricao)
 def atualizar_inscricao(
     inscricao_id: int,
@@ -54,7 +54,7 @@ def atualizar_inscricao(
     session.refresh(db_inscricao)
     return db_inscricao
 
-# Deletar uma inscrição
+
 @router.delete("/{inscricao_id}")
 def deletar_inscricao(
     inscricao_id: int, session: Session = Depends(get_session)
