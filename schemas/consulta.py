@@ -110,7 +110,7 @@ def contar_vagas_por_organizacao(id_organizacao: int, session: Session = Depends
 
     return {"organizacao": organizacao.nome_organizacao, "total_vagas": total_vagas}
 
-@router.get("/inscricoes/contagem/{id_vaga}")
+@router.get("/{id_vaga}/Contar_inscricoes_por_vaga")
 def contar_inscricoes_por_vaga(id_vaga: int,session: Session = Depends(get_session)):
     
     vaga = session.query(Vaga).filter(Vaga.id == id_vaga).first()
