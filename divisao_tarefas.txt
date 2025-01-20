@@ -1,0 +1,30 @@
+Divisão de Tarefas do Trabalho
+
+Membros da Dupla:
+
+Milena de Almeida Chaves - 553851
+
+João Vicente Brasil Aves - 557171
+
+
+- Milena Chaves
+
+Desenvolveu o código dos arquivos organizacao.py e inscricao.py, tanto na pasta routes quanto na pasta models.
+
+Povoou as tabelas organizacao e voluntario.
+
+Implementou metade das consultas presentes no arquivo consulta.py.
+
+
+- João Vicente
+
+Desenvolveu o código dos arquivos vaga.py e voluntario.py, tanto na pasta routes quanto na pasta models.
+
+Povoou as tabelas inscricao e vaga.
+
+Implementou metade das consultas presentes no arquivo consulta.py.
+
+
+- Trabalho Conjunto
+
+Os arquivos main.py e database.py foram desenvolvidos pelos dois membros da dupla.
